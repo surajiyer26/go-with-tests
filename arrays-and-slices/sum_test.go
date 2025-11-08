@@ -27,6 +27,7 @@ func TestSumAll(t *testing.T) {
 
 func TestSumAllTails(t *testing.T) {
 	checkSums := func(t testing.TB, got, want []int) {
+		t.Helper()
 		if !slices.Equal(got, want) {
 			t.Errorf("got %v want %v", got, want)
 		}
