@@ -24,3 +24,23 @@ func TestSumAll(t *testing.T) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
+
+func TestSumAllTails(t *testing.T) {
+	checkSums := func(t testing.TB, got, want []int) {
+		if !slices.Equal(got, want) {
+			t.Errorf("got %v want %v", got, want)
+		}
+	}
+
+	t.Run("make the sums of tails of slices", func(t *testing.T) {
+		got := SumAllTails([]int{2, 4, 6}, []int{1, 3, 5, 7})
+		want := []int{10, 15}
+		checkSums(t, got, want)
+	})
+
+	t.Run("safely sum empty slices", func(t *testing.T) {
+		got := SumAllTails([]int{}, []int{1, 3, 5, 7})
+		want := []int{0, 15}
+		checkSums(t, got, want)
+	})
+}
