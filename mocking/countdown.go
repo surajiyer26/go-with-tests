@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io"
+	"iter"
 	"os"
 	"time"
 )
@@ -47,8 +48,18 @@ func (s *SpyCountdownOperations) Write(p []byte) (n int, err error) {
 const sleep = "sleep"
 const write = "write"
 
+func countDownFrom(from int) iter.Seq[int] {
+	return func(yeild func(int) bool) {
+		for i := from; i > 0; i-- {
+			if !yeild(i) {
+				return
+			}
+		}
+	}
+}
+
 func Countdown(out io.Writer, sleeper Sleeper) {
-	for i := countdownStart; i > 0; i-- {
+	for i := range countDownFrom(countdownStart) {
 		fmt.Fprintln(out, i)
 		sleeper.Sleep()
 	}
